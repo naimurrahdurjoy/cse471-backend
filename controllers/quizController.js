@@ -64,7 +64,8 @@ export const saveQuizResult = async (req, res) => {
     // Validate student exists
     const student = await User.findById(studentId);
     if (!student || student.role !== 'student') {
-      return res.status(404).json({
+      //http bad request
+      return res.status(404).json({  
         success: false,
         message: 'Student not found'
       });
