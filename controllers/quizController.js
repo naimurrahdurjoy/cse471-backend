@@ -10,7 +10,7 @@ const calculateAchievementLevel = (score) => {
   return 'participation';
 };
 
-// Achievement titles and descriptions
+// Achievement icon, titles and descriptions
 const getAchievementData = (level, score) => {
   const achievements = {
     gold: {
