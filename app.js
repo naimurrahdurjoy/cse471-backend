@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/user.js';
@@ -17,17 +18,28 @@ const app = express();
 
 connectDB();
 
-// CORS configuration - Standard JSON API
+// CORS configuration - Production ready with Vercel frontend
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:3001'],
+  origin: [
+    'http://localhost:3000', 
+    'http://localhost:5173', 
+    'http://localhost:3001',
+    'https://camb-cse471.vercel.app',
+    'https://camb-cse471-git-main.vercel.app',
+    'https://camb-cse471-git-develop.vercel.app'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Cookie'],
+  exposedHeaders: ['Set-Cookie']
 }));
 
 // Middleware for parsing JSON - increased limits for large payloads
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// Cookie parser middleware
+app.use(cookieParser());
 
 // Debug middleware to log all requests
 app.use((req, res, next) => {
